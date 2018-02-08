@@ -1,0 +1,169 @@
+﻿body {
+  margin: 0;
+  padding: 0;
+  background: url("../img/bg.png") #ededed;
+  color: #323232;
+  font-family: 'brandon-grotesque';
+  /*.hero {
+        border-bottom: 1px solid @highlight_color;
+        padding-right: 4px;
+        text-align: center;
+        margin-top: 50px;
+
+        div {
+            text-align: left;
+            border: 1px solid @highlight_color;
+            border-radius: 5px;
+            padding: 2px;
+            margin: 4px 0 4px 4px;
+            width: 30%;
+
+            float: left;
+        }
+
+        &:after {
+           content: ".";
+           display: block;
+           visibility: hidden;
+           height: 0;
+           
+           clear: both;     
+        }
+    }*/
+
+}
+body.header-fixed header {
+  position: fixed;
+  top: -160px;
+  left: 0;
+  right: 0;
+}
+body.header-fixed #main {
+  margin-top: 253px;
+}
+body.header-fixed .account {
+  display: none;
+}
+body header {
+  height: 240px;
+  border-bottom: 3px solid #e0671b;
+  background: url('../img/header.jpg');
+}
+body header nav {
+  padding-top: 160px;
+  padding-left: 75px;
+}
+body header nav > ul {
+  list-style: none;
+  cursor: default;
+  margin: 0;
+  padding: 0;
+  font-size: 25px;
+}
+body header nav > ul > li {
+  display: inline-block;
+  margin: 20px;
+  padding: 5px;
+  color: #e8e8e8;
+}
+body header nav > ul > li.brand {
+  text-transform: uppercase;
+  background: none;
+  color: #d1d1d1;
+  font-family: 'adelle';
+}
+body header nav > ul > li:not(.brand) {
+  text-transform: lowercase;
+}
+body header nav > ul > li:not(.brand):hover {
+  cursor: pointer;
+  color: #e0671b;
+}
+body #main {
+  padding: 0 100px 100px 100px;
+  text-align: justify;
+  font-size: 18px;
+}
+body #main h3 {
+  padding-top: 100px;
+}
+body footer {
+  font-family: 'adelle';
+  font-size: 18px;
+  width: 100%;
+  text-align: center;
+  padding-bottom: 50px;
+  color: #9e9e9e;
+}
+body a {
+  text-decoration: none;
+  color: inherit;
+}
+body .hero {
+  /*border-bottom: 1px solid @highlight_color;*/
+
+  padding-right: 4px;
+  text-align: center;
+  margin-top: 50px;
+}
+body .hero div {
+  text-align: left;
+  border: 1px solid #e0671b;
+  border-radius: 5px;
+  padding: 2px;
+  margin: 4px 0 4px 4px;
+  width: 30%;
+  display: inline-block;
+  vertical-align: top;
+}
+body .ad {
+  width: 120px;
+  height: 400px;
+  float: right;
+  margin: 5px 0 5px 5px;
+}
+body .account {
+  position: relative;
+}
+body .account form {
+  position: absolute;
+  right: 25px;
+  top: -50px;
+  background: #e0671b;
+  width: 400px;
+  padding: 5px;
+  border-radius: 0 0 5px 5px;
+}
+iframe[seamless] {
+  /* TOOD */
+
+}
+@media all and (max-width: 680px) {
+  body header nav .brand {
+    position: absolute;
+    top: 0;
+  }
+  body #main {
+    font-size: 25px;
+  }
+}
+@media all and (max-width: 520px) {
+  body header nav {
+    padding-left: 0;
+  }
+  body #main {
+    padding: 0 20px 20px 20px;
+  }
+}
+@media all and (max-width: 450px) {
+  body:not(.header-fixed) header nav > ul {
+    margin-top: -70px;
+  }
+  body:not(.header-fixed) header nav > ul li {
+    display: block;
+  }
+  body:not(.header-fixed) header nav > ul li:not(.brand) {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+}

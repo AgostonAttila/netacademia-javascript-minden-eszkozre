@@ -1,0 +1,150 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>jQuery AJAX</title>
+
+<!--    <script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>-->
+
+    <script src="huf.js"></script>
+
+    <script>
+        var $ = huf;
+
+        $.fn.ready = function (handler) {
+            window.onload = handler;
+        }
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            var table = $("<table><thead><th>Name</th><th>eMail</th><th>&nbsp;</th></thead><tbody></tbody></table>");
+
+                        //$.get("http://localhost:1111/json?status=ok")
+                        //.success(function (resp) {
+                        //    if (resp.status == "ok") {
+                        //        for (var i = 0; i < resp.users.length; i++) {
+                        //            var user = resp.users[i];
+            
+                        //            table.find("tbody").append("<tr><td>" + user.name + "</td><td>" + user.email + "</td></tr>");
+                        //        }
+                        //    }
+            
+                        //    table.appendTo("body");
+                        //})
+                        ////.done()
+                        ////.fail
+                        //.error(function (xhr) {
+                        //     alert( "Hiba történt! :( \n" + xhr.responseText);
+                        //})
+                        ////.always();
+
+                        //$.get("http://localhost:1111/xml?status=ok", function (resp) {
+                        //    var $resp = $(resp).find("response");
+            
+                        //    if ($resp.attr("status") == "ok") {
+                        //        $resp.find("users > user").each(function (i, el) {
+                        //            var user = $(this);
+            
+                        //            table.find("tbody").append("<tr><td>" + user.find("name").text() + "</td><td>" + user.find("email").text() + "</td></tr>");
+                        //        });
+                        //    }
+                        //    else {
+                        //        alert($resp.attr("status"));
+                        //    }
+            
+                        //    table.appendTo("body");
+                        //});
+
+                        //$.get("http://localhost:1111/html", function (resp) {
+                        //    $("body").html(resp);
+                        //});
+
+            var editEntry = null;
+
+            $.get("http://localhost:1111/entry/all", function (resp) {
+                if (resp.status == "ok") {
+                    for (var i = 0; i < resp.entries.length; i++) {
+                        var user = resp.entries[i];
+
+                        var row = $("<tr><td><a href='#' data-itemid='" + user.id + "' data-action='edit'>" + user.name + "</a></td><td>" + user.email + "</td><td><a href='#' data-action='delete' data-itemid='" + user.id + "'>törlés</a></td></tr>");
+
+                        row.data("entry", user);
+
+                        table.find("tbody").append(row);
+                    }
+                }
+
+                table.appendTo("body");
+
+                $("a[data-itemid]").click(function (evt) {
+                //$("a[data-itemid!=undefined]").click(function (evt) {
+                    evt.preventDefault();
+
+                    var $this = $(this),
+                            action = $this.data("action"),
+                            id = $this.data("itemid");
+
+                    switch (action) {
+                        case "delete":
+                            $.ajax({
+                                url: "http://localhost:1111/entry/" + id,
+                                method: "DELETE",
+                                success: function (resp) {
+                                    console.log(resp);
+                                },
+                                error: function (xhr) {
+                                    console.log(xhr.responseText);
+                                }
+                            });
+                            break;
+
+                        case "edit":
+                            editEntry = $this.closest("tr").data("entry");
+
+                            $("#name").val(editEntry.name);
+                            $("#email").val(editEntry.email);
+                            break;
+                    }
+                });
+            });
+
+            $("input[type='submit']").click(function (evt) {
+                evt.preventDefault();
+
+                if (editEntry === null) {
+                    $.post("http://localhost:1111/entry", { email: $("#email").val(), name: $("#name").val() }, function (resp) {
+                        if (resp.status == "ok") {
+                            $("#email").val("");
+                            $("#name").val("");
+                        }
+                    });
+                }
+                else {
+                    $.ajax({
+                        url: "http://localhost:1111/entry/" + editEntry.id,
+                        method: "PUT",
+                        data: { email: $("#email").val(), name: $("#name").val() },
+                        success: function (resp) {
+                            if (resp.status == "ok") {
+                                $("#email").val("");
+                                $("#name").val("");
+
+                                editEntry = null;
+                            }
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+</head>
+<body>
+<form>
+    <input type="text" id="name" placeholder="név"/>
+    <input type="text" id="email" placeholder="email"/>
+
+    <input type="submit"/>
+</form>
+</body>
+</html>

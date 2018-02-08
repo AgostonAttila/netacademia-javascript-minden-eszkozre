@@ -1,0 +1,83 @@
+@bgColor: red;
+@textColor: white;
+
+@width: 200px;
+
+.absolute(@top, @left, @right, @bottom) {
+  position: absolute;
+  top: @top;
+  bottom: @bottom;
+  left: @left;
+  right: @right;
+}
+
+.absolute(@all) {
+  position: absolute;
+  top: @all;
+  bottom: @all;
+  left: @all;
+  right: @all;
+}
+
+body {
+  background: @bgColor;
+  color: @textColor;
+}
+
+h1 {
+  background: @textColor;
+  color: @bgColor;
+}
+
+div {
+  border: 1px solid @textColor;
+
+  .absolute(@width);
+}
+
+#main {
+  text-transform: uppercase;
+
+  .valami {
+    width: @width;
+
+    .valami2 {
+      color: yellow;
+
+      &:hover {
+        color: red;
+      }
+
+      p {
+        ul {
+          list-style: none;
+
+          li {
+             display: inline-block;
+          }
+        }
+      }
+    }
+  }
+}
+
+//#main {
+//
+//}
+//
+//#main .valami {
+//
+//}
+//
+//#main .valami .valami2 {
+//
+//}
+//
+//#main .valami .valami2 p {
+//
+//}
+//
+//#main .valami .valami2 p ul {
+//
+//}
+

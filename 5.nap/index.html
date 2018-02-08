@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+
+    <title></title>
+
+    <script src="js/knockout-2.3.0.js"></script>
+
+    <script type="text/html" id="showEntryTemplate">
+        <tr>
+            <td data-bind="text: számított"></td>
+            <td><a href="#" data-bind="click: $root.edit">Szerkesztés</a></td>
+        </tr>
+    </script>
+
+    <script type="text/html" id="editEntryTemplate">
+        <tr>
+            <td><input type="text" data-bind="value: name"></td>
+            <td><input type="text" data-bind="value: email, event: { keypress: $root.saveOnEnter }"></td>
+            <td><a href="#" data-bind="click: $root.save">Mentés</a></td>
+        </tr>
+    </script>
+
+    <script type="text/html" id="entryTemplate">
+        <tr data-bind="template: ($root.editEntry() == $data ? 'editEntryTemplate' : 'showEntryTemplate')">
+
+        </tr>
+    </script>
+
+    <style>
+        .edit {
+            color: blue;
+        }
+    </style>
+
+    <script>
+        function entry(name, email) {
+//            var self = this;
+
+            this.name = ko.observable(name || "").extend({ required: true, minLength: 5 });
+            this.email = ko.observable(email || "");
+
+            this.számított = ko.computed(function () {
+                return this.name() + ": " + this.email();
+            }, this);
+//
+//            this.name.subscribe(function () {
+//                alert('változtam: ' + this.name());
+//            });
+
+            //this.editing = ko.observable(false);
+        }
+
+        var viewModel = {
+            mainColor: ko.observable("black"),
+
+            editEntry: ko.observable(null),
+
+            edit: function (entry) {
+                viewModel.editEntry(entry);
+                viewModel.mainColor("blue");
+            },
+
+            save: function (entry) {
+//                entry.name.valami();
+
+
+
+                if (entry.name().length > 4) {
+                    //AJAX send entry
+                    viewModel.editEntry(null);
+                    viewModel.mainColor("black");
+                }
+                else {
+                    alert("Túl rövid név.");
+                }
+            },
+
+            saveOnEnter: function (entry, evt) {
+                if (evt.charCode == 13) {
+                    viewModel.save();
+                }
+                else {
+                    return true;
+                }
+            },
+
+            entries: [
+                new entry("John", "j@gmail.com"),
+                new entry("Jack", "j2@gmail.com")
+            ]
+        };
+
+        ko.bindingHandlers.myBinding = {
+            init: function (element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
+                var observable = valueAccessor();
+
+                observable.subscribe(function (value) {
+                    var name = "x";
+
+                    if (value !== null) {
+                        name = ko.utils.unwrapObservable(value).name();
+                    }
+
+                    element.setAttribute("data-akarmi", name);
+                });
+            }
+        };
+
+        ko.extenders.alma = function () {
+             alert("extended");
+        };
+
+        ko.observable.fn.valami = function () {
+            alert("saját bővítő metódus");
+        };
+
+        //        for (var i = 0; i < data.length; i++) {
+        //            var entry = data[i];
+        //
+        //            $("#data").append("<tr><td>" + entry.name +"</td><td>" + entry.email + "</td></tr>");
+        //        }
+
+        window.onload = function () {
+            ko.applyBindings(viewModel, document.body);
+
+            viewModel.editEntry.subscribe(function (value) {
+//                console.log(value.name());
+
+//                alert("Másikat szerkesztes.");
+            });
+
+//            data.name.subscribe(function () {
+//                alert("Változott a name Mező!");
+//            });
+        }
+    </script>
+</head>
+<body>
+<!--<h3 data-bind="myBinding: editEntry"></h3>-->
+<h3 data-bind="css: { 'edit': (editEntry() !== null) }">Cím</h3>
+
+<table>
+    <tbody data-bind="template: { name: 'entryTemplate', foreach: entries }">
+
+    </tbody>
+</table>
+
+</body>
+</html>

@@ -1,0 +1,70 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+</head>
+<body>
+
+    <div id="msg"></div>
+
+    <script>
+        var msg = document.getElementById("msg");
+
+        var blob = new Blob([
+            "this.addEventListener('message', function(e) {" +
+            "   var data = e.data;" +
+            "   try {" +
+            "       var result = eval(data);" +
+            "       this.postMessage({ status: 'ok', result: result });" +
+            "   }" +
+            "   catch(exc) {" +
+            "       this.postMessage({ status: 'error', message: exc.message });" +
+            "   }" +
+            "});"
+        ]);
+
+        var url = window.URL.createObjectURL(blob);
+
+        var wnd, origin;
+        var worker = new Worker(url);
+
+        worker.onmessage = function (e) {
+            var data = e.data;
+
+            if (data.status === "ok") {
+                msg.innerText += data.result;
+            }
+
+            wnd.postMessage(data, origin);
+        }
+
+        window.addEventListener("message", function (e) {
+            var data = e.data;
+
+            wnd = e.source;
+            origin = e.origin;
+
+            msg.innerHTML = "Jött egy üzenet: " + data + "<br/>";
+            worker.postMessage(data);
+        });
+
+        //window.addEventListener("message", function (e) {
+        //    var data = e.data;
+
+        //    wnd = e.source;
+        //    origin = e.origin;
+
+        //    msg.innerHTML = "Jött egy üzenet: " + data + "<br/>";
+
+        //    try {
+        //        var result = eval(data);
+        //        wnd.postMessage({ status: "ok", result: result }, origin);
+        //    }
+        //    catch (exc) {
+        //        wnd.postMessage({ status: "error", message: exc.message }, origin);
+        //    }
+        //});
+    </script>
+
+</body>
+</html>

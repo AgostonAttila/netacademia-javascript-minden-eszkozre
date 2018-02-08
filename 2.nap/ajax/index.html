@@ -1,0 +1,50 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>AJAX</title>
+</head>
+<body>
+    <button onclick="valami();">Kérek valamit!</button>
+    <button onclick="valamiMás();">Kérek valami mást!</button>
+
+    <script>
+        //AJAX
+
+        //READYSATTE
+        //0 - uninitialized
+        //1 - open
+        //2 - sent
+        //3 - receiving
+        //4 - loaded
+
+        function get(url, callback) {
+            var xhr = new XMLHttpRequest();
+
+            xhr.onreadystatechange = function (e) {
+                //var xhr = e.target;
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    var data = JSON.parse(xhr.responseText);
+                    callback(data);
+                }
+            }
+
+            xhr.open("GET", url, true); //async
+            xhr.send();
+        }
+
+        function valami() {
+            get("http://localhost:2222/something", function (resp) {
+                alert(resp.message);
+            });
+        }
+
+        function valamiMás() {
+            get("http://localhost:2222/somethingElse", function (resp) {
+                alert(resp.message);
+            });
+        }
+
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,115 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>CSS</title>
+
+    <link href="page.css" rel="stylesheet" />
+
+    <style>
+        span#egyik.valami {
+            background: blue;
+            margin: 100px;
+        }
+
+        span > #egyik > .valami,
+        input[type=email] {
+            border: 10px solid black;
+            background: red;
+        }
+
+        /*input[type=email]
+        {
+            background: red;
+        }*/
+
+        span #egyik .valami {
+            background: green;
+        }
+
+        div.valami + span {
+            background: orange;
+        }
+
+        /*div {
+            border: 1px solid black;
+            width: 100px;
+            height: 100px;
+            background: yellow /*!important;
+            margin: 10px;
+        }*/
+
+        .piros {
+            background: red;
+        }
+
+            .piros:hover {
+                background: blue;
+            }
+
+        p, div, span, q, blockquote {
+            background: red;
+            margin: 10px;
+            width: 100px;
+            height: 100px;
+        }
+
+        /*span, q {
+            display: block;
+        }*/
+
+        span, q {
+            display: inline-block;
+        }
+
+            p:after, p:before {
+                content: '"';
+            }
+
+
+       
+
+
+        /*div, span {
+            border: 1px solid black;
+            width: 100px;
+            height: 100px;
+            background: yellow;
+            margin: 10px;
+        }*/
+
+        /*div {
+            background: green;
+        }*/
+    </style>
+</head>
+<body>
+
+    <!--<div id="mégegy" style="background: red;"></div>-->
+<!--    <div id="mégegy" class="piros"></div>
+
+    <!--    <span id="egyik" class="valami">alma</span>-->
+    <!--<div id="másik"></div>-->
+
+    <p>Paragrafus.</p>
+    <div>Div.</div>
+    <span>Span.</span>
+    <span>Span.</span>
+    <q>Quote.</q>
+    <blockquote>Block.</blockquote>
+
+    <!--   <span>
+        <!--        <div id="egyéb" class="más">
+        <div id="egyik">
+            <p class="valami">Szöveg</p>
+        </div>
+        <!--        </div>
+    </span>
+
+    <div class="valami">Én vagyok valami!</div>
+    <span>Szöveg.</span>
+
+    <input type="text" />
+    <input type="email" />-->
+
+</body>
+</html>

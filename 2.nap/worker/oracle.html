@@ -1,0 +1,92 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Jósda</title>
+</head>
+<body>
+
+    <div>
+        <div>
+            <label>Hány éves vagy?
+                <input id="age" type="number" min="1" max="100" /></label>
+        </div>
+
+        <div>
+            <label>Milyen nap születtél?
+                <select id="day">
+                    <option value="1">hétfő</option>
+                    <option value="2">kedd</option>
+                    <option value="3">szerda</option>
+                    <option value="4">csütörtök</option>
+                    <option value="5">péntek</option>
+                    <option value="6">szombat</option>
+                    <option value="7">vasárnap</option>
+                </select>
+            </label>
+        </div>
+
+        <div>
+            <label>Milyen csillagjegyben születtél?
+                <select id="sign">
+                    <option value="1">Vízöntő</option>
+                    <option value="2">Halak</option>
+                    <option value="3">Kos</option>
+                    <option value="4">Bika</option>
+                    <option value="5">Ikrek</option>
+                    <option value="6">Rák</option>
+                    <option value="7">Oroszlán</option>
+                    <option value="8">Szűz</option>
+                    <option value="9">Mérleg</option>
+                    <option value="10">Skorpió</option>
+                    <option value="11">Nyilas</option>
+                    <option value="12">Bak</option>
+                </select>
+            </label>
+        </div>
+
+        <button onclick="josolj();">Jósolj!</button>
+    </div>
+
+    <div>
+        <strong>Eredmény:</strong>
+        <progress id="prg" max="100" style="display: none;"></progress>
+        <span id="result">Kérj egy jóslatot!</span>
+    </div>
+
+    <script>
+
+        var worker = new Worker("oracle.js");
+        var prg = document.getElementById("prg");
+        var result = document.getElementById("result");
+
+        worker.onmessage = function (e) {
+            var resp = e.data;
+
+            if (resp.status === "thinking") {
+                prg.style.display = "inline";
+                prg.value = resp.progress;
+                result.innerText = "Jóslok...";
+            }
+            else if (resp.status === "oracle") {
+                prg.style.display = "none";
+                result.innerText = resp.message;
+            }
+            else {
+                prg.style.display = "none";
+                result.innerText = "Nem értem a jóst. :(";
+            }
+        }
+
+        var josolj = function () {
+            var person = {
+                age: document.getElementById("age").value,
+                sign: document.getElementById("sign").value,
+                day: document.getElementById("day").value
+            };
+
+            worker.postMessage(person);
+        }
+
+    </script>
+</body>
+</html>

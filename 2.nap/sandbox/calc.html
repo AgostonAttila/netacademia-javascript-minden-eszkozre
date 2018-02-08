@@ -1,0 +1,41 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Számológép</title>
+</head>
+<body>
+
+    <iframe id="worker" sandbox="allow-scripts" hidden src="calc-worker.html"></iframe>
+    <input id="cmd" /><button onclick="calculate();">SZÁMOLJ!</button>
+    <div id="result"></div>
+
+    <script>
+
+        //function calculate() {
+        //    var cmd = document.getElementById("cmd").value;
+        //    document.getElementById("result").innerText = eval(cmd);
+        //}
+
+        var worker = document.getElementById("worker").contentWindow;
+
+        window.addEventListener("message", function (e) {
+            var data = e.data;
+
+            if (data.status === "ok") {
+                document.getElementById("result").innerText = data.result;
+            }
+            else {
+                document.getElementById("result").innerText = "HIBA: " + data.message;
+            }
+        });
+
+        function calculate() {
+            var cmd = document.getElementById("cmd").value;
+
+            worker.postMessage(cmd, "*");
+        }
+
+    </script>
+
+</body>
+</html>

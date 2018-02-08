@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+
+    <script src="huf.js"></script>
+<!--    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>-->
+
+    <script>
+
+        //var valamiAsync = function (adat, callback) {
+        //    //Csinál valamit...
+        //    callback();
+        //}
+
+        //var valamiAsync = function (adat) {
+        //    //Csinál valamit...
+
+        //    var promise = {
+        //        done: function () { },
+        //        fail: function () { },
+        //        always: function () { },
+        //        then: function () { }
+        //    };
+
+        //    return promise;
+        //}
+
+        //var p = valamiAsync("adat");
+
+        //p.done = function () {
+        //    //...
+        //}
+
+        //p.cancel();
+
+    </script>
+
+    <script>
+        huf.fn.myPlugin = function() {
+            alert("saját plugin");
+        };
+
+        window.onload = function () {
+            //huf("p").data("allat", { kutya: "labrador" }).each(function (i, el) {
+            //    console.log(this);
+            //});
+
+            huf("#divecske").css({ width: '100px', height: '100px', background: "red" });
+            //huf("input").attr({ type: "password", placeholder: "jelszó" }).val("almafa");
+
+            //console.log(huf("p").text("<b>Lorem ipsum.</b>").data("allat"));
+
+            //huf("<i>alma</i>").appendTo("body").myPlugin();
+
+            huf("#divecske").animate({ width: 500 }, 1000, function () {
+                alert("VÉGE!");
+            });
+
+            
+        }
+    </script>
+</head>
+<body>
+
+<input type="text"/>
+
+<div id="divecske"></div>
+
+<p></p>
+
+<p></p>
+
+<p></p>
+
+<p></p>
+
+<p></p>
+</body>
+</html>
